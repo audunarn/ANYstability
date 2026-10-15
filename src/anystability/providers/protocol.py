@@ -14,7 +14,7 @@ class Quantity:
     def __post_init__(self):
         object.__setattr__(self, "value", real(self.value, "quantity value"))
         object.__setattr__(self, "error", real(self.error, "quantity error", nonnegative=True))
-        if self.assurance not in {"roundoff_estimate", "owner_certified_bound"}:
+        if not isinstance(self.assurance, str) or self.assurance not in {"roundoff_estimate", "owner_certified_bound"}:
             invalid("unknown quantity assurance")
 
     def to_dict(self):
@@ -48,7 +48,7 @@ class ProviderBinding:
         text(self.provider_id, "provider identity")
         digest(self.source_hash, "geometry source hash")
         text(self.implementation, "provider implementation")
-        if self.geometry_assurance not in {"analytical_reference", "owner_certified"}:
+        if not isinstance(self.geometry_assurance, str) or self.geometry_assurance not in {"analytical_reference", "owner_certified"}:
             invalid("unknown geometry assurance")
 
     def to_dict(self):

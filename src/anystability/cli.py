@@ -10,28 +10,33 @@ from .errors import ErrorCode, StabilityError
 from .persistence import (atomic_write, load_project, load_result, read_bytes,
                           save_project, save_result)
 from .reporting import html_report, markdown_report
-from .services import analyze, capabilities, example_project, provider_for, reproduce
+from .services import analyze, analyze_integrals, capabilities, example_project, provider_for, reproduce
 from .validation import decode_json, canonical_bytes
 
 
 def parser():
-    p = argparse.ArgumentParser(prog="anystability", description="Ship stability foundations; reference development only in S1")
+    p = argparse.ArgumentParser(prog="anystability", description="Ship stability foundations; S2 consumer preparation; reference development only")
     p.add_argument("--version", action="version", version=__version__)
     sub = p.add_subparsers(dest="command", required=True)
     sub.add_parser("capabilities")
+    sub.add_parser("provider-check", help="read-only H1 admission status; exits 2 while blocked")
+    handoff = sub.add_parser("inspect-handoff", help="check delivery bytes, never execute/admit owner code")
+    handoff.add_argument("manifest")
     example = sub.add_parser("example", help="save the explicitly analytical reference box")
     example.add_argument("project")
     create = sub.add_parser("import-json", help="validate input JSON and save a new project")
     create.add_argument("input")
     create.add_argument("project")
-    for command in ("validate", "equilibrium", "hydrostatics"):
+    for command in ("validate", "equilibrium", "hydrostatics", "integrals"):
         s = sub.add_parser(command)
         s.add_argument("project")
         s.add_argument("--allow-reference", action="store_true")
-        if command == "hydrostatics":
+        if command in {"hydrostatics", "integrals"}:
             s.add_argument("--draft-m", type=float, required=True)
             s.add_argument("--heel-rad", type=float, default=0.0)
             s.add_argument("--trim-rad", type=float, default=0.0)
+        if command == "integrals":
+            s.add_argument("--accuracy-json", help="explicit absolute errors for all five quantity groups")
     for command in ("verify", "report", "export-json"):
         s = sub.add_parser(command)
         s.add_argument("project")
@@ -45,6 +50,12 @@ def parser():
 
 
 def execute(args):
+    if args.command == "provider-check":
+        from .providers.handoff import provider_status
+        return provider_status()
+    if args.command == "inspect-handoff":
+        from .providers.handoff import inspect_handoff
+        return inspect_handoff(args.manifest)
     if args.command == "capabilities":
         return capabilities()
     if args.command in {"example", "import-json"}:
@@ -53,6 +64,12 @@ def execute(args):
         return dict(status="saved", input_hash=identity, project=str(Path(args.project)),
                     production_qualified=False)
     project = load_project(args.project)
+    if args.command == "integrals":
+        from .providers.integrals import Accuracy
+        accuracy = (None if args.accuracy_json is None else
+                    Accuracy.from_dict(decode_json(read_bytes(args.accuracy_json))))
+        return analyze_integrals(project, pose=Pose(args.heel_rad, args.trim_rad, -args.draft_m),
+                                 allow_reference=args.allow_reference, accuracy=accuracy)
     if args.command == "validate":
         provider = provider_for(project, allow_reference=args.allow_reference)
         return dict(status="reference_inputs_valid", input_hash=project.identity,
@@ -84,7 +101,7 @@ def main(argv=None):
     try:
         result = execute(args)
         print(canonical_bytes(result).decode())
-        return 0
+        return 2 if args.command in {"provider-check", "inspect-handoff"} else 0
     except StabilityError as exc:
         print(canonical_bytes(exc.to_dict()).decode(), file=sys.stderr)
         return 2

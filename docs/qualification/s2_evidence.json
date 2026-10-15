@@ -1,0 +1,90 @@
+{
+  "stage": "S2_consumer_preparation",
+  "phase_complete": false,
+  "Q08": "BLOCKED_NOT_EXECUTED",
+  "version": "0.1.0.dev1",
+  "tests": {
+    "total": 118,
+    "passed": 118,
+    "failed": 0,
+    "skipped": 0,
+    "command": "python -I -m unittest discover -s /mnt/data/ANYstability/tests -v",
+    "location": "clean installed wheel outside source checkout",
+    "log_sha256": "37d9042abfdbfd63cd06b10258aa1413a695e4aea69b177e6ba6008032f6c379"
+  },
+  "review": "self-review and executed tests; no independent reviewer",
+  "runtime": {
+    "python": "3.13.5",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "installed_distributions": [
+      "ANYstability==0.1.0.dev1",
+      "pip==25.1.1"
+    ],
+    "package_outside_checkout": true,
+    "installed_source_byte_equivalence": true,
+    "optional_dependencies_imported": []
+  },
+  "wheel": {
+    "filename": "anystability-0.1.0.dev1-py3-none-any.whl",
+    "bytes": 43255,
+    "sha256": "034a31ad281f698ffd6a99c2f9b68f4e189513ab0e8a4aef62d099b3fae9d25c"
+  },
+  "legacy_original_results_reproduced": [
+    {
+      "object_hash": "afdbfe61623ff397fb5288753de34aed85c680155f7d02bc1365ad35423cd3f6",
+      "engine": {
+        "algorithm": "s1-reference/1",
+        "package": "ANYstability",
+        "version": "0.1.0.dev0"
+      }
+    }
+  ],
+  "source_sha256": {
+    "src/anystability/__init__.py": "8154c97d0147b304fc860222fdb13e973dee0119199fdbdb1482b55a7581e879",
+    "src/anystability/loading.py": "eeae8e55901d10a8de36eaa7265566c3fd5d8d1a3ba4ab0f8e13e8d4d89de686",
+    "src/anystability/validation.py": "f3c90f6340553d62562c33ffc76bf7060fc3aa4f24e2ca23539e73b3b41a5f21",
+    "src/anystability/reporting.py": "ce029849ab7f28af687943e21591d0853a4c0c4f945a2f0866a762e3e86eb182",
+    "src/anystability/cli.py": "26d653459608938735c8fdf8de814bd9bf7bab33d52e74700d4eaf920bf7f5af",
+    "src/anystability/conventions.py": "1df0ad8f5c27763a4e4e340918a60bbafdeb922320862e87b8a1e8d67fdc97bb",
+    "src/anystability/domain.py": "699b542599ef423a594bb19b6ce4a7acfd18656009a006bfd5c7b5b064953bac",
+    "src/anystability/errors.py": "124a93f4dee048fa1ae6e81f7a0958ac76f4e4e543b0d1ad69e3e68725601713",
+    "src/anystability/services.py": "00c46810489ea6d357e9373fb7783c491ff5caef2369fb273bfe4885494b7370",
+    "src/anystability/equilibrium.py": "ac63874a46eddf2a64a28e315c9d27424263e2aec559d0094fde957116bcff96",
+    "src/anystability/persistence.py": "b3d6bdf8b32c31814bb54db1f2cb515311b452757cee1f3a52d9c75dd09d60f8",
+    "src/anystability/hydrostatics.py": "6fe2fef5f93e27177aa904a21b2206f871d4f1e15f56c431e1df6538b8e22db2",
+    "src/anystability/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/anystability/providers/__init__.py": "457271f1909d4a78bb0573edb156d3f1b8ade29d4c7c865058ed9a361b27aaba",
+    "src/anystability/providers/bounds.py": "717c7b1ddc47df39a0a59b8b5babb3031e27100fedc9cee6c12e41a4be749cc0",
+    "src/anystability/providers/integrals.py": "5a6dabc3fbf1db37833ca58a7f62f371b1df55c87edbffbd64a2acc87c99558a",
+    "src/anystability/providers/handoff.py": "dd4247645c82c5a6ff2998cc3c1f7c1394bae4812df8fa675f0fa76312f9da2b",
+    "src/anystability/providers/protocol.py": "f5226f8c27890e411aff663c7e54fd50a25f20905e36d9fab1ba6a3e0a2dd58c",
+    "src/anystability/reference/__init__.py": "02c25c9a930438f589871457956798057b709a758ad3794a741a2cbef8fe54d7",
+    "src/anystability/reference/integrals.py": "b374404ab78cc12bac7cb2728e403baa2a98a5243e3b6f6fe74558333d42b6d2",
+    "src/anystability/reference/box.py": "5d2678c9b005946271af8fac3e3b16ecff48f57d100056aa448782183aa1171e",
+    "tests/test_s2.py": "7149c4432ff830ab2476ad82f8eed249f1577c641d093539ecac8378904af4f1",
+    "tests/test_foundation.py": "52b39918f486a0787b433b24af2633cc0763764ac65371c727a9ab147e9f2653"
+  },
+  "upstream": {
+    "ANYgeometry_remote_main": "0a3a602af7880d73d2cdac140f3ae3040b744421",
+    "newest_retrieved_release": "v0.4.5",
+    "local_main": "not inspected; remote device offline",
+    "owner_reported_B1_H1": "not an installed artifact receipt"
+  },
+  "real_owner_verification": "NOT_EXECUTED",
+  "panel_refinement": "NOT_EXECUTED",
+  "P0": "NOT_MEASURED",
+  "P1": "NOT_MEASURED",
+  "native_performance": "NOT_MEASURED",
+  "remote_ci": "configured; observe published run separately",
+  "prior_test_runs": [
+    {
+      "tests": 113,
+      "passed": 113
+    },
+    {
+      "tests": 116,
+      "passed": 116
+    }
+  ],
+  "implementation_boundary": "Consumer contracts/arithmetic/inspection only; production owner adapter absent"
+}

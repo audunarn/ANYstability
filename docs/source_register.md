@@ -20,3 +20,18 @@ No rule profile is implemented, so no rule threshold has been guessed.
 
 Third-party runtime dependencies: none. Build dependencies: setuptools and wheel.
 License text is the standard MPL-2.0 text distributed in LICENSE.
+
+
+## S2 availability inspection — 15 October 2026
+
+- ANYstability start: `16941a4284d966fd7d9914d98a382752c9e13160`, recovered tree
+  `8985fd8f1b028c5bc6d460f20fbdfccc7ffff58f` independently matched by git write-tree.
+- ANYgeometry remote main: `0a3a602af7880d73d2cdac140f3ae3040b744421`.
+- GitHub releases endpoint (three entries) listed v0.4.5 as newest, published
+  2026-10-01. Owner-reported local B1/H1 status is not a remote artifact receipt.
+- Remote workstation access was checked and the only listed device was offline.
+- No H1 installed scientific tests or P0/P1 benchmarks are claimed in this slice.
+
+Sources: GitHub API `/repos/audunarn/ANYgeometry/branches/main`,
+`/repos/audunarn/ANYgeometry/releases?per_page=3`, and
+`/repos/audunarn/ANYstability/branches/main`; read through the authorized connector.

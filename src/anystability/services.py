@@ -9,17 +9,19 @@ from .errors import ErrorCode, StabilityError
 from .loading import aggregate_mass
 from .validation import canonical_bytes, content_hash, decode_json, exact, integer, invalid, real
 from .providers.protocol import HalfSpace, HydrostaticSample, ProviderBinding, Quantity
+from .providers.handoff import provider_status, require_production_provider
 
 ENGINE = {"package": "ANYstability", "version": __version__, "algorithm": "s1-reference/1"}
+LEGACY_ENGINE = {"package": "ANYstability", "version": "0.1.0.dev0", "algorithm": "s1-reference/1"}
 ASSURANCE = {"geometry": "analytical_reference", "numerics": "engineering_development",
              "continuous_curve": "not_evaluated", "criteria": "not_evaluated",
              "approval": "none", "production_qualified": False}
 
 
 def capabilities():
-    return dict(package="ANYstability", version=__version__, stage="S1_foundation",
-                production_geometry=dict(available=False, code="PROVIDER_UNAVAILABLE",
-                                         reason="No installed B1/H1 adapter has been admitted in this build"),
+    return dict(package="ANYstability", version=__version__, stage="S2_consumer_preparation",
+                production_geometry=provider_status(),
+                integral_contract="anystability-integrals-v1",
                 reference_box=dict(explicit_opt_in_required=True, planes="horizontal +z only",
                                    calculations=["prescribed_pose", "fixed_attitude_vertical"],
                                    geometry_assurance="analytical_reference"),
@@ -31,10 +33,7 @@ def provider_for(project: Project, *, allow_reference: bool = False):
         invalid("allow_reference must be a boolean")
     source = project.vessel.geometry
     if source.provider_id == "anygeometry_h1":
-        raise StabilityError(ErrorCode.PROVIDER_UNAVAILABLE,
-                             "ANYgeometry H1 adapter and artifact admission are not implemented in this build",
-                             required=["public half-space quantities and bounds", "installed B1 boundary verifier",
-                                       "provider/source binding and supported-domain evidence"])
+        require_production_provider()
     if source.provider_id != "reference_box_v1":
         raise StabilityError(ErrorCode.CAPABILITY_UNSUPPORTED, "unregistered geometry provider",
                              provider_id=source.provider_id)
@@ -70,7 +69,7 @@ class AnalysisRecord:
         data = decode_json(self.payload_json.encode("utf-8"))
         d = exact(data, {"schema_version", "engine", "assurance", "input_hash", "inputs", "output"}, "analysis record")
         integer(d["schema_version"], "result schema", 1, 1)
-        if d["engine"] != ENGINE:
+        if d["engine"] not in (ENGINE, LEGACY_ENGINE):
             raise StabilityError(ErrorCode.CAPABILITY_UNSUPPORTED, "result requires another engine/algorithm version")
         if canonical_bytes(d["assurance"]) != canonical_bytes(ASSURANCE):
             invalid("reference result cannot acquire production, criteria or certified assurance")
@@ -176,6 +175,22 @@ def reproduce(record):
         p = out["state"]["pose"]
         fresh = analyze(record.project, calculation="hydrostatics", allow_reference=True,
                         pose=Pose(p["heel_rad"], p["trim_rad"], p["origin_z_m"]))
+    data = fresh.to_dict()
+    data["engine"] = record.to_dict()["engine"]
+    fresh = AnalysisRecord(canonical_bytes(data).decode())
     if canonical_bytes(fresh.to_dict()) != canonical_bytes(record.to_dict()):
         raise StabilityError(ErrorCode.INTEGRITY_ERROR, "stored result does not reproduce with its declared engine")
     return fresh
+
+
+def analyze_integrals(project, *, pose, allow_reference=False, accuracy=None):
+    """S2 geometric-property demonstration, explicitly reference-only until H1."""
+    from .providers.integrals import Accuracy, IntegralRequest, checked_query
+    from .reference.integrals import ReferenceBoxIntegrals
+    from .hydrostatics import integral_properties
+    if not isinstance(pose, Pose):
+        invalid("an explicit pose is required")
+    provider = provider_for(project, allow_reference=allow_reference)
+    query = IntegralRequest("prescribed-integrals", HalfSpace(*pose.waterplane()),
+                            Accuracy() if accuracy is None else accuracy)
+    return integral_properties(checked_query(ReferenceBoxIntegrals(provider), query))

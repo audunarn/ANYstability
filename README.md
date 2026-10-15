@@ -65,3 +65,31 @@ is not B1/H1 admission, R1 completion or statutory approval.
 ## License
 
 MPL-2.0. See `LICENSE` and `NOTICE`.
+
+
+## S2 consumer preparation (0.1.0.dev1)
+
+S2 is **partial**, not admitted for production B1/H1. The actual owner API,
+installed artifact and certificate verifier remain required. No local owner
+work has been changed and no analytical/panel substitute enables production.
+
+New consumer contracts carry arbitrary-plane moment frames, raw first/second
+moments, quantity-specific errors, source/artifact declarations and per-query
+work limits. Checked sequential batches retain refusals and reject substituted
+planes or changed sources. Derived CB/centroid/BM intervals enclose arithmetic
+on the supplied input intervals only; they do not qualify the geometry/model.
+
+```powershell
+# Read-only diagnostics: exit code 2 is expected while H1 admission is blocked.
+python -m anystability provider-check
+python -m anystability inspect-handoff examples/h1_handoff_request.json
+
+# Existing reference project; this is NOT a B1 calculation.
+python -m anystability example reference-project
+python -m anystability integrals reference-project --draft-m 2 --allow-reference
+```
+
+The real H1 adapter will map the delivered public owner API into this consumer
+contract. A matching file checksum or installed package version alone never
+activates it. See docs/provider_contract.md, ADR 0003 and CHECKPOINT.md.
+S1 dev0 saved results remain readable and explicitly reproducible.
