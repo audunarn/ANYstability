@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "scope": "S1 analytical foundation; not Q08, R1 or statutory qualification",
+  "registered_before_clean_installed_run": true,
+  "case_families": ["Q01 horizontal box", "Q02 pose and virtual power subset", "Q03 fixed-attitude vertical", "Q15 persistence subset", "Q16 CLI/import subset"],
+  "reference_geometry_m": {"length": 20.0, "breadth": 10.0, "height": 4.0},
+  "density_kg_m3": 1025.0,
+  "gravity_m_s2": 9.80665,
+  "reference_drafts_m": [0.1, 0.333, 1.1, 2.0, 3.75, 3.9],
+  "force_relative_tolerance": 1e-8,
+  "draft_tolerance_m": 1e-6,
+  "max_queries": 128,
+  "negative_cases": ["overload", "neutral full immersion", "degenerate plane", "tilted plane", "query substitution", "source substitution", "iteration budget", "unattainable tolerance", "duplicate mass", "forged assurance", "corrupt sidecar", "stale result", "interrupted publication"],
+  "performance": {"status": "not_a_performance_qualification", "hard_speedup_target": null},
+  "approval": "none"
+}

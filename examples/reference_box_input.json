@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "vessel": {
+    "vessel_id": "reference-box",
+    "name": "Analytical box (not B1)",
+    "geometry": {
+      "provider_id": "reference_box_v1",
+      "definition": {
+        "breadth_m": 10.0,
+        "height_m": 4.0,
+        "length_m": 20.0
+      }
+    }
+  },
+  "condition": {
+    "condition_id": "reference-loaded",
+    "name": "Analytical reference condition",
+    "items": [
+      {
+        "item_id": "cargo",
+        "mass_kg": 205000.0,
+        "cg_body_m": [
+          0.0,
+          0.0,
+          2.5
+        ],
+        "source": "declared_reference",
+        "covers": [
+          "cargo"
+        ]
+      },
+      {
+        "item_id": "lightship",
+        "mass_kg": 205000.0,
+        "cg_body_m": [
+          0.0,
+          0.0,
+          1.5
+        ],
+        "source": "declared_reference",
+        "covers": [
+          "structure"
+        ]
+      }
+    ],
+    "water_density_kg_m3": 1025.0,
+    "gravity_m_s2": 9.80665
+  },
+  "settings": {
+    "force_relative_tolerance": 1e-08,
+    "draft_tolerance_m": 1e-06,
+    "max_queries": 128
+  }
+}

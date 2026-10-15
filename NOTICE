@@ -1,0 +1,11 @@
+ANYstability
+Copyright 2026 Audun Nyhus
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this file,
+you can obtain one at https://mozilla.org/MPL/2.0/.
+
+This initial foundation has no third-party runtime dependencies.
+The full implementation plan is retained as a planning input, not a
+claim of implemented capability. Regulatory material is referenced,
+not bundled or represented as software approval.

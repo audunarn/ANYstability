@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "scope": "S1 analytical foundation only",
+  "implementation_review": "self-review; no independent reviewer or upstream qualification executed",
+  "runtime": {
+    "python": "3.13.5",
+    "platform": "Linux",
+    "machine": "x86_64"
+  },
+  "tests": {
+    "command": "python -I -m unittest discover -s ABSOLUTE_SOURCE/tests -v",
+    "cwd": "outside repository",
+    "installed_wheel": true,
+    "passed": 55,
+    "failed": 0,
+    "skipped": 0,
+    "reported_seconds": 0.9
+  },
+  "isolation": {
+    "optional_packages_installed": false,
+    "optional_packages_imported": false,
+    "checked": [
+      "numpy",
+      "scipy",
+      "anygeometry",
+      "anyhydro",
+      "anymarine",
+      "anysolver",
+      "capytaine",
+      "xarray",
+      "PySide6"
+    ]
+  },
+  "initial_attempt": {
+    "passed": 54,
+    "failed": 1,
+    "reason": "system startup had preloaded numpy; import test now checks introduced modules; clean venv separately proved absence"
+  },
+  "wheel": {
+    "filename": "anystability-0.1.0.dev0-py3-none-any.whl",
+    "sha256": "6905c220954c5f897c66a73838948c588082e270f2fde1083851b9d72e5d093f"
+  },
+  "reference": {
+    "input_hash": "050ca2246cf4d2ed2d4a8ed3d7e8188dec52b0e1b46b17301a754ec02a8f601d",
+    "result_hash": "605e3f0ec9024ec9bed1da38b3119350cbc4e1143859e0fd58e471926f6196da",
+    "result_object_hash": "afdbfe61623ff397fb5288753de34aed85c680155f7d02bc1365ad35423cd3f6",
+    "expected_draft_m": 2.0,
+    "calculated_draft_m": 1.999999988824129,
+    "queries": 33,
+    "vertical_residual_N": -0.022467559669166803
+  },
+  "plan_sha256": "198b7005a6c7833eafcf0f0bf1c94cc6f302afad1416783e1e6e44974c16db55",
+  "remote_ci": "not yet observed at evidence capture",
+  "geometry_admission": "NOT_IMPLEMENTED_NOT_ADMITTED",
+  "R1": "NOT_QUALIFIED",
+  "approval": "none"
+}

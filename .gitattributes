@@ -1,0 +1,4 @@
+* text=auto eol=lf
+# Preserve the original planning input and Markdown hard line breaks.
+docs/IMPLEMENTATION_PLAN.md -text whitespace=-blank-at-eol
+LICENSE whitespace=-blank-at-eol

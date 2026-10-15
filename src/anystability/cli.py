@@ -1,0 +1,98 @@
+"""Installed CLI; structured refusals and nonzero status on numerical/I/O failure."""
+import argparse
+import json
+from pathlib import Path
+import sys
+from . import __version__
+from .conventions import Pose
+from .domain import Project
+from .errors import ErrorCode, StabilityError
+from .persistence import (atomic_write, load_project, load_result, read_bytes,
+                          save_project, save_result)
+from .reporting import html_report, markdown_report
+from .services import analyze, capabilities, example_project, provider_for, reproduce
+from .validation import decode_json, canonical_bytes
+
+
+def parser():
+    p = argparse.ArgumentParser(prog="anystability", description="Ship stability foundations; reference development only in S1")
+    p.add_argument("--version", action="version", version=__version__)
+    sub = p.add_subparsers(dest="command", required=True)
+    sub.add_parser("capabilities")
+    example = sub.add_parser("example", help="save the explicitly analytical reference box")
+    example.add_argument("project")
+    create = sub.add_parser("import-json", help="validate input JSON and save a new project")
+    create.add_argument("input")
+    create.add_argument("project")
+    for command in ("validate", "equilibrium", "hydrostatics"):
+        s = sub.add_parser(command)
+        s.add_argument("project")
+        s.add_argument("--allow-reference", action="store_true")
+        if command == "hydrostatics":
+            s.add_argument("--draft-m", type=float, required=True)
+            s.add_argument("--heel-rad", type=float, default=0.0)
+            s.add_argument("--trim-rad", type=float, default=0.0)
+    for command in ("verify", "report", "export-json"):
+        s = sub.add_parser(command)
+        s.add_argument("project")
+        s.add_argument("result_hash")
+        if command in ("report", "export-json"):
+            s.add_argument("output")
+        if command == "report":
+            s.add_argument("--format", choices=("markdown", "html"), default="markdown")
+            s.add_argument("--verify", action="store_true")
+    return p
+
+
+def execute(args):
+    if args.command == "capabilities":
+        return capabilities()
+    if args.command in {"example", "import-json"}:
+        project = example_project() if args.command == "example" else Project.from_dict(decode_json(read_bytes(args.input)))
+        identity = save_project(project, args.project)
+        return dict(status="saved", input_hash=identity, project=str(Path(args.project)),
+                    production_qualified=False)
+    project = load_project(args.project)
+    if args.command == "validate":
+        provider = provider_for(project, allow_reference=args.allow_reference)
+        return dict(status="reference_inputs_valid", input_hash=project.identity,
+                    provider=provider.binding.to_dict(), production_qualified=False)
+    if args.command in {"hydrostatics", "equilibrium"}:
+        kwargs = {}
+        if args.command == "hydrostatics":
+            kwargs["pose"] = Pose(args.heel_rad, args.trim_rad, -args.draft_m)
+        result = analyze(project, calculation=args.command, allow_reference=args.allow_reference, **kwargs)
+        identity = save_result(result, args.project)
+        return dict(status="completed_reference", result_object_hash=identity,
+                    result=result.to_dict())
+    record = load_result(args.project, args.result_hash)
+    if args.command == "verify":
+        reproduced = reproduce(record)
+        return dict(status="reference_reproduced", result_hash=reproduced.identity,
+                    stale=record.is_stale(project), production_qualified=False)
+    if args.command == "export-json":
+        data = canonical_bytes(record.to_dict()) + b"\n"
+    else:
+        renderer = markdown_report if args.format == "markdown" else html_report
+        data = renderer(record, verify=args.verify, current_project=project).encode("utf-8")
+    atomic_write(args.output, data)  # Exclusive; never silently replace a user's file.
+    return dict(status="written", output=str(Path(args.output)), stale=record.is_stale(project))
+
+
+def main(argv=None):
+    args = parser().parse_args(argv)
+    try:
+        result = execute(args)
+        print(canonical_bytes(result).decode())
+        return 0
+    except StabilityError as exc:
+        print(canonical_bytes(exc.to_dict()).decode(), file=sys.stderr)
+        return 2
+    except OSError as exc:
+        error = StabilityError(ErrorCode.IO_ERROR, str(exc))
+        print(canonical_bytes(error.to_dict()).decode(), file=sys.stderr)
+        return 3
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
