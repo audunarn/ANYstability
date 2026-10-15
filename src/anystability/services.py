@@ -12,6 +12,7 @@ from .providers.protocol import HalfSpace, HydrostaticSample, ProviderBinding, Q
 from .providers.handoff import provider_status, require_production_provider
 
 ENGINE = {"package": "ANYstability", "version": __version__, "algorithm": "s1-reference/1"}
+PREVIOUS_ENGINE = {"package": "ANYstability", "version": "0.1.0.dev1", "algorithm": "s1-reference/1"}
 LEGACY_ENGINE = {"package": "ANYstability", "version": "0.1.0.dev0", "algorithm": "s1-reference/1"}
 ASSURANCE = {"geometry": "analytical_reference", "numerics": "engineering_development",
              "continuous_curve": "not_evaluated", "criteria": "not_evaluated",
@@ -19,7 +20,7 @@ ASSURANCE = {"geometry": "analytical_reference", "numerics": "engineering_develo
 
 
 def capabilities():
-    return dict(package="ANYstability", version=__version__, stage="S2_consumer_preparation",
+    return dict(package="ANYstability", version=__version__, stage="S2_owner_development_integration",
                 production_geometry=provider_status(),
                 integral_contract="anystability-integrals-v1",
                 reference_box=dict(explicit_opt_in_required=True, planes="horizontal +z only",
@@ -69,7 +70,7 @@ class AnalysisRecord:
         data = decode_json(self.payload_json.encode("utf-8"))
         d = exact(data, {"schema_version", "engine", "assurance", "input_hash", "inputs", "output"}, "analysis record")
         integer(d["schema_version"], "result schema", 1, 1)
-        if d["engine"] not in (ENGINE, LEGACY_ENGINE):
+        if d["engine"] not in (ENGINE, PREVIOUS_ENGINE, LEGACY_ENGINE):
             raise StabilityError(ErrorCode.CAPABILITY_UNSUPPORTED, "result requires another engine/algorithm version")
         if canonical_bytes(d["assurance"]) != canonical_bytes(ASSURANCE):
             invalid("reference result cannot acquire production, criteria or certified assurance")

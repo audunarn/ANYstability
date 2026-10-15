@@ -1,23 +1,24 @@
-# Capability matrix — S2 consumer preparation
+# Capability matrix — S2 real owner development integration
 
 | Capability | Status | Evidence / remaining gate |
 |---|---|---|
-| S0 ownership, pose, mass contracts | Foundation implemented | Independent contract review still open |
-| S1 loading, box hydrostatics, vertical solve | Implemented, reference only | Original 55 tests retained |
-| S1 persistence/CLI/reports | Implemented, reference only | Original dev0 results remain reproducible |
-| S2 prepared/query/basis/moment records | Implemented consumer contract | Immutable and strict JSON tests; not guessed owner API |
-| S2 checked queries and sequential batches | Implemented | Identity, accuracy, budgets, refusals and aborts tested |
-| S2 derived CB/section/BM intervals | Implemented arithmetic | Rational reference tests; no automatic certification upgrade |
-| S2 handoff inspector / provider-check | Implemented, read-only | No owner code execution; spoofed completeness stays blocked |
-| Actual ANYgeometry B1/H1 adapter | NOT IMPLEMENTED / NOT ADMITTED | Await accessible public API and installed owner delivery |
-| S2 real Q01/Q02/Q08 geometry gate | BLOCKED / NOT EXECUTED | Actual B1 fixture, owner verifier and installed wheel needed |
-| Independent panel-refinement comparison | NOT EXECUTED | Real matched B1 geometry required |
-| P0/P1 and native throughput | NOT MEASURED | No surrogate point timing used as owner performance |
-| S3 free-floating heel/trim/local stability | NOT IMPLEMENTED | Separate next phase |
-| S4 tanks / S5 GZ/events / S6 criteria | NOT IMPLEMENTED | No criteria or overall PASS exists |
-| S8 GUI / marine numerical consumption | NOT IMPLEMENTED | Existing upstream composition restrictions preserved |
-| S9 / R1 / general hull qualification | NOT QUALIFIED | S2 is not complete |
+| S0 ownership/pose/mass | Foundation implemented | Independent review open |
+| S1 loading, box, vertical solve, reports | Reference only, retained | 55 original tests retained; dev0/dev1 reproduction |
+| S2 integral records/checks/intervals | Implemented consumer contract | Unchanged assurance rules; not the quadrature route |
+| Read-only handoff inspection | Implemented | Checksums never enable production |
+| Actual ANYgeometry H1 API adapter | Implemented, explicit development opt-in | Pinned installed Python bytes; source-owned geometry only |
+| Real B1 half-hull quantities | Development comparisons pass | Three levels, oblique derivative, Windows/Linux Python 3.13 |
+| Actual owner codec/closure check | Executed | Not an outward-normal or hydrostatic certificate |
+| Typed refusals, stale source, wall limits | Implemented | Boundary tests and actual owner degeneracy check |
+| Independent panel refinement | Development reference passes | Test-only 4 levels; not ANYhydro/ANYmarine campaign |
+| Owner-certified integral admission | BLOCKED | Quantity bounds and owner verifier absent |
+| P0/P1/native throughput | Pilot timing only | 1,000-plane and native campaigns not executed |
+| S3 free-floating equilibrium | NOT IMPLEMENTED | Real owner query route now usable for development |
+| S4 tanks / S5 GZ/events / S6 criteria | NOT IMPLEMENTED | No overall criteria PASS |
+| S8 GUI / marine consumption | NOT IMPLEMENTED | Existing owner/force composition restrictions preserved |
+| S9 / R1 / general hull qualification | NOT QUALIFIED | Original S2 gate remains partial |
 
-S2 consumer preparation may run without ANYgeometry. An installed distribution
-version or matching handoff hash cannot enable the missing reviewed adapter.
-Mock, analytical and transport tests never count as B1/H1 acceptance.
+Real integration evidence: `docs/qualification/s2_h1_development_evidence.json`.
+145 no-owner tests are separate from the actual installed-owner comparisons.
+An estimate remains an estimate; no B1 subset or matching payload qualifies a
+whole vessel, an arbitrary NURBS hull or an approved loading computer.

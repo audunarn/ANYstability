@@ -35,3 +35,22 @@ License text is the standard MPL-2.0 text distributed in LICENSE.
 Sources: GitHub API `/repos/audunarn/ANYgeometry/branches/main`,
 `/repos/audunarn/ANYgeometry/releases?per_page=3`, and
 `/repos/audunarn/ANYstability/branches/main`; read through the authorized connector.
+
+
+## S2 owner recheck, 2026-10-15
+
+ANYgeometry source pin: `21d0637bc7f090e03b88f785f75ea1821489db6d`.
+Primary source paths at this pin:
+- `src/anygeometry/hydrostatics.py`: actual quantity and estimate semantics.
+- `src/anygeometry/shell_volume.py`: connected closure check, not certification.
+- `src/anygeometry/b1_example.py`: half-hull driving fixture and rational surface.
+- `src/anygeometry/model.py`, `serialization.py`: source identity and public codec.
+- `setup.py`, `pyproject.toml`: optional native policy; unchanged version 0.4.5.
+
+Initial installed build/import probe: ANYstability Actions run 38794467954,
+job 116627116062. Pure-Python wheel SHA-256
+`03e60b8cd1fd14c8ebffbb2758d353d7de9e8c1da44cbb8f17a59c9fe2836d41`;
+134-file Python payload
+`2c8c0cf0fae861b88f966db9960c15add693fb4e6214befd77e1fec84467b5aa`.
+Rebuilt ZIP metadata may differ; payload identity is tested independently.
+Build/import success alone is not numerical qualification.

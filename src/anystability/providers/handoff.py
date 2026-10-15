@@ -29,11 +29,13 @@ def provider_status() -> dict:
     except metadata.PackageNotFoundError:
         installed_version = None
     return dict(provider_id="anygeometry_h1", available=False,
-                code=ErrorCode.PROVIDER_UNAVAILABLE.value, stage="S2_consumer_preparation",
+                code=ErrorCode.PROVIDER_UNAVAILABLE.value, stage="S2_owner_development_integration",
                 installed_distribution_version=installed_version,
-                installed_owner_verifier="not_executed", reviewed_adapter="not_implemented",
+                installed_owner_verifier="not_executed", reviewed_adapter="development_only_not_certified",
                 Q08="blocked_not_executed", blocking_gates=list(BLOCKING_GATES),
-                reason="B1/H1 public API and installed owner evidence are not admitted in this build")
+                reason="H1 now has a development adapter, but only order-doubling estimates: certified bounds/verifier are absent",
+                development_adapter="anystability.providers.anygeometry_h1.H1DevelopmentProvider",
+                development_opt_in_required=True)
 
 
 def require_production_provider():

@@ -24,7 +24,14 @@ def run(*args, cwd=None, timeout=240):
     global count
     count += 1
     print('H1_STEP', count, args[:4], flush=True)
-    p = subprocess.run(args, cwd=cwd, capture_output=True, timeout=timeout)
+    try:
+        p = subprocess.run(args, cwd=cwd, capture_output=True, timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        (evidence / f'{count:02d}.stdout.log').write_bytes(exc.stdout or b'')
+        (evidence / f'{count:02d}.stderr.log').write_bytes(exc.stderr or b'')
+        print((exc.stdout or b'')[-12000:].decode(errors='replace'), flush=True)
+        print((exc.stderr or b'')[-12000:].decode(errors='replace'), flush=True)
+        raise SystemExit(f'H1 step {count} timed out; partial evidence retained') from exc
     (evidence / f'{count:02d}.stdout.log').write_bytes(p.stdout)
     (evidence / f'{count:02d}.stderr.log').write_bytes(p.stderr)
     if p.returncode:

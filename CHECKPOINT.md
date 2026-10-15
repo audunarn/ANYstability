@@ -1,67 +1,64 @@
-# ANYstability checkpoint — S2 consumer preparation
+# ANYstability checkpoint — real owner H1 development integration
 
-Date: 2026-10-15. Package: 0.1.0.dev1. **S2 PARTIAL: real H1 admission BLOCKED.**
-The controlling docs/IMPLEMENTATION_PLAN.md is unchanged. This is not R1.
+Date: 2026-10-15. Package: 0.1.0.dev2. **S2 PARTIAL; certified admission BLOCKED.**
+The controlling plan is unchanged. Previous checkpoint is preserved verbatim in
+`docs/qualification/s2_pre_owner_checkpoint.md`.
 
-## Delivered
+## Delivered now
 
-Versioned S2 prepared bindings and exact half-space requests, declared artifact/
-verifier identity, general in-plane frames, raw first/second waterplane moments,
-quantity-specific error controls, checked queries and bounded sequential batches.
-Typed refusals retain original causes; changed sources or substituted planes/
-accuracy policies abort admission. No plane nudges or panel fallback.
+A real, opt-in `H1DevelopmentProvider` calls public ANYgeometry `hydrostatics`
+from main snapshot `21d0637bc7f090e03b88f785f75ea1821489db6d`.
+It verifies the complete installed 134-file Python payload, uses actual owner
+serialization/closure checking, detaches geometry, preserves source identity,
+uses ANYstability's pose convention, and retains typed refusals. It does not
+call the owner's equilibrium or GZ helpers.
 
-Derived CB, in-plane centroid/centroidal moments and geometric BM use outward
-interval arithmetic over supplied errors. Estimates remain estimates; a
-certificate reference is never silently verified. Empty/full and uncertain
-zero-denominator cases have explicit absent quantities, not fabricated zeros.
+The source provides quadrature estimates, NOT certified quantity bounds. Results
+have a separate development schema, explicit null bounds and no production,
+root, vessel-stability or regulatory qualification. The certified `IntegralSample`
+contract and default production selector are unchanged. Owner source is not edited.
 
-Read-only provider-check and inspect-handoff commands report installed version
-metadata and delivery-byte checks without importing/installing/executing owner
-code. Complete-looking test receipts still cannot enable production. The
-integrals CLI/service exposes an explicitly opted-in horizontal reference demo.
-S1 snapshots remain compatible, retaining original producing-engine identity.
+New CLI: `h1-export-b1` and `h1-query`, both requiring `--allow-development`.
+Queries support an exported owner snapshot or `--b1`, explicit prescribed
+heel/trim, order/rtol and a child-process wall limit. No fallback or plane nudges.
+S1 dev0/dev1 result reproduction remains supported.
 
-## Upstream observations and blockers
+## Actual evidence
 
-ANYstability GitHub main at start: 16941a4284d966fd7d9914d98a382752c9e13160.
-Recovered handoff source tree matched remote tree 8985fd8f1b028c5bc6d460f20fbdfccc7ffff58f.
-ANYgeometry GitHub main observed: 0a3a602af7880d73d2cdac140f3ae3040b744421.
-Newest of the three retrieved published releases: v0.4.5 (1 October 2026).
-The available workstation connection was offline. The newer owner-reported
-local B1/H1 work was not inspected, installed, altered or synchronized.
+145 unit tests passed against a clean installed wheel on Linux Python 3.13.5,
+without optional owner/numerical/GUI packages. These are consumer boundary tests.
 
-No actual H1 public API mapping, installed B1 wheel/certificate verification,
-real B1/Q08 geometry run, independent panel comparison or P0/P1 measurement was
-possible with the accessible artifacts. No substitute is labelled qualified.
-A versioned consumer protocol is NOT the missing production adapter.
+Real owner integration ran separately on GitHub Windows and Linux, Python
+3.13.16 / NumPy 2.5.4: run **38796735220**, numerical candidate **5496ad7c9c76**.
+Both jobs succeeded. Source, built owner wheel and installed Python files match.
+Finite-pose box closed forms, empty/full limits, three B1 levels, oblique dV/dd=A,
+source/staleness checks, owner-codec round trip and actual CLI child all passed.
+The B1 oracle uses independently derived elliptical cross-section integration;
+a test-only panel model converges through 66, 194, 642 and 2306 triangles.
+This is not a run of the complete ANYgeometry qualification suite.
 
-## Executed verification
+At BODY z=1.75 m: V=14.223429532831435 m3, CB approximately
+(2.465523918, 2.856610101, 1.133581168) m, Aw=11.847713639211321 m2.
+The driving fixture is a CLOSED HALF-HULL BOW SEGMENT, not a complete barge.
 
-118 unittest cases passed against an installed 0.1.0.dev1 wheel in a clean Linux
-Python 3.13.5 venv outside the checkout: 55 original tests plus 63 new consumer
-checks. The initial run passed 113 tests; artifact/verifier-binding and complete
-receipt CLI regressions raised coverage to 116. Self-review then tightened malformed assurance/immersion
-inputs and empty/full/batch semantics, bringing the final suite to 118. No failed numerical result was
-suppressed. Review was self-review plus executed tests, not independent review.
-See docs/qualification/s2_evidence.json for exact artifact and source identities.
-Remote CI must be observed on the published commit; it is not inferred here.
+Pure-Python pilot measurements: preparation 27.10 s Linux / 50.54 s Windows;
+three upright query medians 0.891 s / 2.112 s. Preparation includes building and
+owner-codec validation. These are specific hosted-runner observations, not a
+1,000-plane campaign or a native-speed qualification. Reuse prepared geometry.
+Exact measurements and receipt identities: `docs/qualification/s2_h1_development_evidence.json`.
+Review is self-review with independent numerical references, not independent review.
 
-## Resume to finish S2
+## Remaining S2 gates and next work
 
-1. Obtain the actual B1/H1 public API documentation, wheel, fixture, supported-
-   domain and bound-semantics definitions plus owner verification evidence.
-   examples/h1_handoff_request.json records the still-incomplete request.
-2. Inspect those bytes, then write ONE owner adapter against its actual public
-   prepare/evaluate/verify API. No dynamic imports directed by receipt JSON.
-3. Verify installed artifact equivalence and invoke the actual public owner
-   certificate verifier. Activate only that reviewed, matched adapter.
-4. Run arbitrary admitted planes, full/empty and adverse boundary cases on B1;
-   demonstrate actual quantity bounds and persistence identity with independent
-   primitive checks. Complete the geometry portions of Q01/Q02/Q08.
-5. Run matched panel refinement and P0/P1, retaining failures and measured
-   query costs. Only then mark S2 complete. Full Q08 equilibrium/GZ continues
-   through subsequent phases.
+1. Admit actual quantity-specific bounds and a public owner certificate verifier
+   when delivered. The current normalized indicator cannot replace them.
+2. Qualify outward orientation, supported solid/section domains and boundary
+   degeneracies. Connected consistent topology alone is not that certificate.
+3. Complete the matched ANYhydro/ANYmarine panel campaign and larger P0/P1/native
+   performance programme; the test-only panel reference does not close them.
+4. Complete full-vessel Q08 as the equilibrium/GZ phases become available.
+   S3 free-floating calculations may now develop against real owner queries,
+   but their assurance must remain honest until the above gates close.
 
-S3 reference algorithms can proceed independently, but cannot close these S2
-gates. Do not overwrite active owner work or alter its tolerances to get a pass.
+No changed scope or implicit installation is authorized by a checksum. A new
+owner payload requires a reviewed pin update and installed regression checks.

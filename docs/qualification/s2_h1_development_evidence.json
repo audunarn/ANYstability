@@ -1,0 +1,107 @@
+{
+  "kind": "anystability-s2-h1-development-evidence-v1",
+  "observed_date": "2026-10-15",
+  "scope": "installed real H1 development geometry, not certified S2 or R1",
+  "owner_commit": "21d0637bc7f090e03b88f785f75ea1821489db6d",
+  "owner_python_payload_sha256": "2c8c0cf0fae861b88f966db9960c15add693fb4e6214befd77e1fec84467b5aa",
+  "owner_python_files": 134,
+  "owner_version": "0.4.5",
+  "native_enabled": false,
+  "numerical_candidate_commit": "5496ad7c9c76bfe6263cc6ae186ae1bc735b9df2",
+  "actions_run_id": 38796735220,
+  "installed_runs": [
+    {
+      "os": "ubuntu-latest",
+      "python": "3.13.16",
+      "numpy": "2.5.4",
+      "job_id": 116634979943,
+      "conclusion": "success",
+      "wheel_sha256": "672fa9fdf19c467090a36979b39143bf63753dbb3b13dbb164b49f83147c17d4",
+      "preparation_seconds": 27.098146494999995,
+      "upright_query_seconds": [
+        0.8906301979999967,
+        1.122241315999986,
+        0.8404383879999955
+      ]
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.13.16",
+      "numpy": "2.5.4",
+      "job_id": 116634979463,
+      "conclusion": "success",
+      "wheel_sha256": "e710d55eefd5c1eaf6c111d7f1e7b6383884f9df83f8841a9c0a94c6a49ec3c8",
+      "preparation_seconds": 50.53788700000001,
+      "upright_query_seconds": [
+        2.1124235999999996,
+        2.407818500000019,
+        1.8681197999999881
+      ]
+    }
+  ],
+  "checks": {
+    "box_finite_pose_comparisons": 3,
+    "empty_full_box_comparisons": 2,
+    "b1_upright_comparisons": 3,
+    "b1_oblique_volume_derivative": "pass",
+    "owner_typed_refusal": "pass",
+    "query_budget": "pass",
+    "snapshot_reproduction": "pass",
+    "source_detachment_and_staleness": "pass",
+    "installed_CLI_child": "pass"
+  },
+  "b1_half_hull_at_body_plane_z_1_75": {
+    "volume_m3": 14.223429532831435,
+    "cb_body_m": [
+      2.4655239175248744,
+      2.8566101007717646,
+      1.1335811683794876
+    ],
+    "waterplane_area_m2": 11.847713639211321,
+    "linux_order_doubling_indicator": 3.8715712332149854e-16,
+    "quantity_bounds": null
+  },
+  "panel_refinement": [
+    {
+      "subdivisions": 4,
+      "triangles": 66,
+      "relative_volume_error": 0.0011063822965021372,
+      "cb_error_m": 0.0030686211543895503
+    },
+    {
+      "subdivisions": 8,
+      "triangles": 194,
+      "relative_volume_error": 0.0002768895604708743,
+      "cb_error_m": 0.0007670646671753545
+    },
+    {
+      "subdivisions": 16,
+      "triangles": 642,
+      "relative_volume_error": 6.924098728547228e-05,
+      "cb_error_m": 0.0001917602795886708
+    },
+    {
+      "subdivisions": 32,
+      "triangles": 2306,
+      "relative_volume_error": 1.7311412750417623e-05,
+      "cb_error_m": 4.7939698294641175e-05
+    }
+  ],
+  "panel_scope": "independent test-only faceting versus ellipse continuum; not ANYhydro/ANYmarine campaign",
+  "local_no_owner_suite": {
+    "tests": 145,
+    "failures": 0,
+    "skips": 0,
+    "python": "3.13.5",
+    "mode": "clean installed wheel"
+  },
+  "performance_scope": {
+    "P0": "pilot only",
+    "P1_1000_planes": "not_executed",
+    "native_throughput": "not_executed"
+  },
+  "certificate_verifier": "not_available",
+  "certified_production_admission": false,
+  "review": "self-review and independent numerical formulas; no independent human/agent review",
+  "provenance": "Summary transcribed from observed GitHub job receipts and numerical outputs. Full logs remain at the cited run; source scripts reproduce the checks."
+}
