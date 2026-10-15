@@ -1,23 +1,33 @@
 name: Installed H1 development integration
 on:
   push:
-    branches: [work/s2-owner-h1]
+    branches: [main, work/s2-owner-h1]
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  owner-probe:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+  owner-integration:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
-          python-version: '3.13'
-      - name: Build and inspect pinned owner artifact
+          python-version: ${{ matrix.python }}
+      - name: Build and test pinned installed artifacts
         env:
           ANYGEOMETRY_BUILD_NATIVE: '0'
           ANYGEOMETRY_REQUIRE_NATIVE: '0'
           ANYGEOMETRY_DISABLE_NATIVE: '1'
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
         run: python tools/verify_h1_owner.py
+      - name: Confirm source was not modified
+        run: git diff --exit-code

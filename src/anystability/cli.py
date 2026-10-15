@@ -15,13 +15,29 @@ from .validation import decode_json, canonical_bytes
 
 
 def parser():
-    p = argparse.ArgumentParser(prog="anystability", description="Ship stability foundations; S2 consumer preparation; reference development only")
+    p = argparse.ArgumentParser(prog="anystability", description="Ship stability foundations; S2 owner integration; explicit development modes only")
     p.add_argument("--version", action="version", version=__version__)
     sub = p.add_subparsers(dest="command", required=True)
     sub.add_parser("capabilities")
     sub.add_parser("provider-check", help="read-only H1 admission status; exits 2 while blocked")
     handoff = sub.add_parser("inspect-handoff", help="check delivery bytes, never execute/admit owner code")
     handoff.add_argument("manifest")
+    export = sub.add_parser("h1-export-b1", help="export the real owner B1 half-hull development fixture")
+    export.add_argument("output")
+    export.add_argument("--allow-development", action="store_true")
+    export.add_argument("--wall-seconds", type=float, default=120.)
+    h1 = sub.add_parser("h1-query", help="real H1 quadrature; estimates, not certified geometry")
+    source = h1.add_mutually_exclusive_group(required=True)
+    source.add_argument("--b1", action="store_true")
+    source.add_argument("--snapshot")
+    h1.add_argument("--allow-development", action="store_true")
+    h1.add_argument("--draft-m", type=float, required=True, help="body-origin plane offset, not a draught-marker reading")
+    h1.add_argument("--heel-rad", type=float, default=0.)
+    h1.add_argument("--trim-rad", type=float, default=0.)
+    h1.add_argument("--order", type=int, default=24)
+    h1.add_argument("--rtol", type=float, default=1e-8)
+    h1.add_argument("--wall-seconds", type=float, default=120.)
+    h1.add_argument("--output")
     example = sub.add_parser("example", help="save the explicitly analytical reference box")
     example.add_argument("project")
     create = sub.add_parser("import-json", help="validate input JSON and save a new project")
@@ -50,6 +66,24 @@ def parser():
 
 
 def execute(args):
+    if args.command in {"h1-export-b1", "h1-query"}:
+        from .providers.anygeometry_h1 import H1Query, _opt_in
+        from .providers.protocol import HalfSpace
+        from .providers.h1_worker import run_job
+        _opt_in(args.allow_development)
+        job = dict(action="export_b1", allow_development=True, query=None, snapshot=None)
+        if args.command == "h1-query":
+            n, d = Pose(args.heel_rad, args.trim_rad, -args.draft_m).waterplane()
+            job.update(action="query_b1" if args.b1 else "query_snapshot",
+                       query=H1Query(HalfSpace(n, d), args.order, args.rtol).to_dict(),
+                       snapshot=None if args.b1 else decode_json(read_bytes(args.snapshot)))
+        result = run_job(job, wall_seconds=args.wall_seconds)
+        if args.command == "h1-export-b1":
+            atomic_write(args.output, canonical_bytes(result["snapshot"]) + b"\n")
+            return dict(status=result["status"], output=args.output, production_qualified=False)
+        if args.output:
+            atomic_write(args.output, canonical_bytes(result) + b"\n")
+        return result
     if args.command == "provider-check":
         from .providers.handoff import provider_status
         return provider_status()
