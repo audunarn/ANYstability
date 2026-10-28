@@ -195,3 +195,9 @@ def analyze_integrals(project, *, pose, allow_reference=False, accuracy=None):
     query = IntegralRequest("prescribed-integrals", HalfSpace(*pose.waterplane()),
                             Accuracy() if accuracy is None else accuracy)
     return integral_properties(checked_query(ReferenceBoxIntegrals(provider), query))
+
+# Shared engineering workflow used by floating equilibrium and saved reports.
+from .workflow import (EngineeringStudy, EngineeringResult, workflow_defaults,
+    create_stability_study, solve_floating_equilibrium, calculate_gz_curve,
+    stability_metrics, export_stability_report, save_stability_study,
+    load_stability_study)

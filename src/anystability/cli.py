@@ -62,10 +62,44 @@ def parser():
         if command == "report":
             s.add_argument("--format", choices=("markdown", "html"), default="markdown")
             s.add_argument("--verify", action="store_true")
+    for command in ("solve-equilibrium", "gz-curve", "stability-metrics", "stability-report"):
+        s = sub.add_parser(command, help="saved engineering workflow; no regulatory admission")
+        s.add_argument("study", help="saved engineering study JSON")
+        if command in ("solve-equilibrium", "gz-curve"):
+            s.add_argument("output", help="saved study/result JSON")
+            s.add_argument("--controls-json", help="JSON controls object")
+        if command == "gz-curve":
+            s.add_argument("--profile", choices=("preview", "full"), default="preview")
+            s.add_argument("--mode", choices=("free_trim", "fixed_trim"), default="free_trim")
+            s.add_argument("--fixed-trim-rad", type=float)
+            s.add_argument("--heels-rad", type=float, nargs="+")
+        if command == "stability-report":
+            s.add_argument("output", help="exclusive new report folder")
+
     return p
 
 
 def execute(args):
+    if args.command in ("solve-equilibrium", "gz-curve", "stability-metrics", "stability-report"):
+        from .services import (load_stability_study, save_stability_study,
+            solve_floating_equilibrium, calculate_gz_curve, stability_metrics, export_stability_report)
+        study, result = load_stability_study(args.study)
+        if args.command in ("solve-equilibrium", "gz-curve"):
+            controls = decode_json(args.controls_json.encode()) if args.controls_json else None
+            if args.command == "solve-equilibrium":
+                result = solve_floating_equilibrium(study, controls=controls)
+            else:
+                result = calculate_gz_curve(study, controls=controls, profile=args.profile,
+                    mode=args.mode, fixed_trim_rad=args.fixed_trim_rad, heels_rad=args.heels_rad,
+                    seed_result=result)
+            save_stability_study(study,args.output,result=result)
+            return result.to_dict()
+        if result is None:
+            raise StabilityError(ErrorCode.INPUT_INVALID,"saved study contains no result")
+        if args.command == "stability-metrics":
+            return stability_metrics(result)
+        return export_stability_report(study,result,args.output)
+
     if args.command in {"h1-export-b1", "h1-query"}:
         from .providers.anygeometry_h1 import H1Query, _opt_in
         from .providers.protocol import HalfSpace

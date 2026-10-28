@@ -12,6 +12,9 @@ license = {text = "MPL-2.0"}
 authors = [{name = "Audun Nyhus"}]
 dependencies = []
 
+[project.optional-dependencies]
+floating = ["numpy>=1.26"]
+
 [project.scripts]
 anystability = "anystability.cli:main"
 
