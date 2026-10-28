@@ -219,7 +219,7 @@ class IntegralSample:
     request: IntegralRequest
     volume_m3: Quantity
     first_moments_m4: tuple[Quantity, Quantity, Quantity]
-    waterplane: WaterplaneMoments
+    waterplane: WaterplaneMoments | None
     immersion: str
     work_units: int
     certificate_ref: str | None = None
@@ -228,10 +228,15 @@ class IntegralSample:
 
     def __post_init__(self):
         if (not isinstance(self.binding, PreparedBinding) or not isinstance(self.request, IntegralRequest)
-                or not isinstance(self.volume_m3, Quantity) or not isinstance(self.waterplane, WaterplaneMoments)):
+                or not isinstance(self.volume_m3, Quantity)
+                or (self.waterplane is not None and not isinstance(self.waterplane, WaterplaneMoments))):
             invalid("integral sample requires typed binding, request and quantities")
         object.__setattr__(self, "first_moments_m4", _qs(self.first_moments_m4, 3, "volume first moments"))
-        self.waterplane.frame.validate_plane(self.request.plane)
+        if self.waterplane is None:
+            if self.binding.source.geometry_assurance != "owner_certified" or self.immersion not in {"empty", "full"}:
+                invalid("absent waterplane requires owner-certified empty/full occupancy")
+        else:
+            self.waterplane.frame.validate_plane(self.request.plane)
         integer(self.work_units, "actual provider work units", 0, 10000000)
         if not isinstance(self.immersion, str) or self.immersion not in {"empty", "full", "partial", "boundary"} or self.volume_m3.value < 0:
             invalid("invalid immersion or negative volume")
@@ -239,7 +244,7 @@ class IntegralSample:
             invalid("a full displacement domain must have positive volume")
         if self.immersion == "empty" and any(q.value != 0 for q in (self.volume_m3, *self.first_moments_m4)):
             invalid("empty displacement must have zero volume and first moments")
-        if self.immersion in {"empty", "full"} and self.waterplane.components:
+        if self.immersion in {"empty", "full"} and self.waterplane is not None and self.waterplane.components:
             invalid("empty/full away from the boundary cannot contain a section")
         for name in ("certificate_ref", "section_ref"):
             if getattr(self, name) is not None:
@@ -248,7 +253,7 @@ class IntegralSample:
         for event in events:
             text(event, "owner section event code")
         object.__setattr__(self, "events", events)
-        qs = (self.volume_m3, *self.first_moments_m4, *self.waterplane.quantities())
+        qs = (self.volume_m3, *self.first_moments_m4, *(self.waterplane.quantities() if self.waterplane is not None else ()))
         if self.binding.source.geometry_assurance == "analytical_reference":
             if self.certificate_ref is not None or any(q.assurance != "roundoff_estimate" for q in qs):
                 invalid("reference records cannot claim owner certificates/bounds")
@@ -260,7 +265,7 @@ class IntegralSample:
         return dict(version=VERSION, binding=self.binding.to_dict(), request=self.request.to_dict(),
                     volume_m3=self.volume_m3.to_dict(),
                     first_moments_m4=[q.to_dict() for q in self.first_moments_m4],
-                    waterplane=self.waterplane.to_dict(), immersion=self.immersion,
+                    waterplane=None if self.waterplane is None else self.waterplane.to_dict(), immersion=self.immersion,
                     work_units=self.work_units, certificate_ref=self.certificate_ref,
                     section_ref=self.section_ref, events=list(self.events))
 
@@ -273,7 +278,7 @@ class IntegralSample:
         d["request"] = IntegralRequest.from_dict(d["request"])
         d["volume_m3"] = _q(d["volume_m3"])
         d["first_moments_m4"] = tuple(_q(v) for v in sequence(d["first_moments_m4"], "J", 3))
-        d["waterplane"] = WaterplaneMoments.from_dict(d["waterplane"])
+        d["waterplane"] = None if d["waterplane"] is None else WaterplaneMoments.from_dict(d["waterplane"])
         return cls(**d)
 
 
@@ -306,8 +311,9 @@ def checked_query(provider: IntegralProvider, request: IntegralRequest) -> Integ
                              work_units=sample.work_units, limit=request.max_work_units)
     a, w = request.accuracy, sample.waterplane
     groups = (("V", (sample.volume_m3,), a.volume_m3),
-              ("J", sample.first_moments_m4, a.first_moments_m4),
-              ("A_wp", (w.area_m2,), a.waterplane_area_m2),
+              ("J", sample.first_moments_m4, a.first_moments_m4))
+    if w is not None:
+        groups += (("A_wp", (w.area_m2,), a.waterplane_area_m2),
               ("J_wp", w.first_m3, a.waterplane_first_m3),
               ("I_wp", w.second_m4, a.waterplane_second_m4))
     for name, qs, limit in groups:
