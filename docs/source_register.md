@@ -10,7 +10,7 @@ Planning observations (not newly executed upstream qualifications):
   and coefficient frame semantics govern future exchange. FULL and physical-
   wrench composition remain consumer-gated; no new admission claimed here.
 - ANYmarine main 68e206b35c7a9295886249fd5a373d6ed1b62748; coupled mechanical
-  equilibrium stays there/ANYsolver, not duplicated by S1 vertical equilibrium.
+  equilibrium stays there/ANYfeSolver, not duplicated by S1 vertical equilibrium.
 - ANYgeometry remote main 0a3a602af7880d73d2cdac140f3ae3040b744421 in the plan.
   Newer local B1/H1 work was owner-reported; there is no installed receipt here.
 

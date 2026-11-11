@@ -419,7 +419,7 @@ class InstalledCliTests(Checks):
         code='''import sys
 before=set(sys.modules)
 import anystability.cli
-for x in ("numpy","scipy","anygeometry","anyhydro","anymarine","anysolver","capytaine","xarray","PySide6"):
+for x in ("numpy","scipy","anygeometry","anyhydro","anymarine","anyfesolver","anysolver","capytaine","xarray","PySide6"):
     assert x not in set(sys.modules)-before, x
 print("base imports clean")'''
         r=subprocess.run([sys.executable,"-c",code],capture_output=True,text=True)
