@@ -540,7 +540,7 @@ from anystability.providers.handoff import provider_status
 from anystability.providers.integrals import checked_batch
 from anystability.hydrostatics import integral_properties
 provider_status()
-for p in ('anygeometry','anyhydro','anymarine','anysolver','numpy','scipy','PySide6','capytaine'):
+for p in ('anygeometry','anyhydro','anymarine','anyfesolver','anysolver','numpy','scipy','PySide6','capytaine'):
     assert p not in set(sys.modules)-before, p
 '''
         r=subprocess.run([sys.executable,"-c",code],capture_output=True,text=True)

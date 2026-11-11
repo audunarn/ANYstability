@@ -5,7 +5,7 @@ Accepted for S0/S1, 2026-10-15. Scope: foundation, not full R1 qualification.
 ANYgeometry owns production volumes, section curves, integrals and certificates.
 ANYstability owns loading conditions, tank inventories, free-floating equilibrium,
 GZ, events and assessment. ANYhydro remains the hydrodynamic data/provider owner.
-ANYmarine hosts coupled workflows. ANYsolver owns mechanical assembly in those
+ANYmarine hosts coupled workflows. ANYfeSolver owns mechanical assembly in those
 workflows; static loading aggregation here does not require a mechanical solver.
 
 S1 deliberately uses only the standard library. No matrix solution, BEM, GPU,
